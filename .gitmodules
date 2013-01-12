@@ -1,0 +1,9 @@
+[submodule "mono"]
+	path = mono
+	url = https://github.com/mono/mono.git
+[submodule "monodevelop"]
+	path = monodevelop
+	url = https://github.com/mono/monodevelop.git
+[submodule "openjpeg"]
+	path = openjpeg
+	url = https://github.com/malaterre/openjpeg.git

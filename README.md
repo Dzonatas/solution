@@ -1,9 +1,9 @@
-Solution by way of submodules:
+Solution by way of submodules:<br/>
 
--> mono
--> monodevelop
--> openjpeg
+-> mono<br/>
+-> monodevelop<br/>
+-> openjpeg<br/>
 
-Goals:
-Less dependency on specific version(s).
-Rewrite JP3D into C#.
+Goals:<br/>
+Less dependency on specific version(s).<br/>
+Rewrite JP3D into C#.<br/>

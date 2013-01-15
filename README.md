@@ -10,7 +10,7 @@ Rewrite JP3D into C#.<br/>
 Use virtual network interfaces (minus ICE buffer bloat).<br/>
 Unmanaged IL CC.<br/>
 Include Debian package build (from base).<br/>
-
-More submodules:
-github.com/github/gollum
-(CLI wrapper...)
+<br/>
+More submodules:<br/>
+github.com/github/gollum<br/>
+(CLI wrapper...)<br/>

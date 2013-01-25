@@ -5,11 +5,11 @@ Solution by way of submodules:<br/>
 -> openjpeg<br/>
 
 Goals:<br/>
-Less dependency on specific version(s).<br/>
 Rewrite JP3D into C#.<br/>
-Use virtual network interfaces (minus ICE buffer bloat).<br/>
-Unmanaged IL CC.<br/>
 Include Debian package build (from base).<br/>
+Less dependency on specific version(s).<br/>
+Unmanaged GNU IL CC (LSB interface aware) and allow OpenCL optimizations.<br/>
+Use virtual network interfaces (minus ICE buffer bloat) or [lsb] AF_BUS.<br/>
 <br/>
 More submodules:<br/>
 github.com/github/gollum<br/>

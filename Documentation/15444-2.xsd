@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xsd:schema PUBLIC "-//W3C//DTD XMLSchema 200102//EN" 
+                                                      "http://www.w3.org/2001/XMLSchema.dtd" [
+  <!ENTITY % p 'xsd:'>
+  <!ENTITY % s ':xsd'>
+]>
+
+<!-- 
+    Copyright (C) ISO/IEC 2001 - All rights reserved.
+
+    Permission to copy in any form is granted for use with validating and conforming
+    systems and applications as defined in ISO/IEC 15444-2:2001, provided this
+    copyright notice is included with all copies.
+-->
+
+<!-- HUMAN_SCHEMA_DTD_LOCATION:http://www.jpeg.org/metadata/15444-2.PDF -->
+
+<xsd:schema targetNamespace="http://www.jpeg.org/jpx/1.0/xml" 
+            xmlns:jp="http://www.jpeg.org/jpx/1.0/xml" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+             xmlns="http://www.jpeg.org/jpx/1.0/xml" 
+             elementFormDefault="qualified">
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     -  Fundamental Metadata Types, Fields and Attributes
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+   <!--
+     -  See section Annex N.7.2.1 Language attribute
+     -->
+   <!-- Import the xml:lang attribute definition defined by W3C -->
+   <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+                                    schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+
+   <!--
+     -  See section Annex N.7.2.2 Timestamp attribute
+     -->
+   <xsd:attribute name="TIMESTAMP" type="xsd:dateTime"/>
+
+   <!--
+     -  See section Annex N.7.1.3 String including language attribute type
+     -->
+   <xsd:complexType name="tLangString">
+     <xsd:simpleContent>
+       <xsd:extension base="xsd:string">
+         <xsd:attribute ref="xml:lang"/>
+       </xsd:extension>
+     </xsd:simpleContent>
+   </xsd:complexType>
+
+   <!--
+     -  See section Annex N.7.1.1 Non-negative double type
+     -->
+   <xsd:simpleType name="tNonNegativeDouble">
+     <xsd:restriction base="xsd:double">
+       <xsd:minInclusive value="0"/>
+     </xsd:restriction>
+   </xsd:simpleType>
+
+   <!--
+     -  See section Annex N.7.1.2 Rational type
+     -->
+   <xsd:simpleType name="tRational">
+     <xsd:restriction base="xsd:string">
+       <xsd:pattern value="(\-|\+)?[0-9]+/[0-9]+"/>
+     </xsd:restriction>
+   </xsd:simpleType>
+
+  <!--
+    -  See section Annex N.7.1.4 Degree type
+    -->
+  <xsd:simpleType name="tDegree">
+    <xsd:restriction base="xsd:double">
+      <xsd:minExclusive value="-180"/>
+      <xsd:maxInclusive value="180"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!--
+    -  See section Annex N.7.1.5 Half degree type
+    -->
+  <xsd:simpleType name="tHalfDegree">
+   <xsd:restriction base="xsd:double">
+    <xsd:minExclusive value="-90"/>
+    <xsd:maxInclusive value="90"/>
+   </xsd:restriction>
+  </xsd:simpleType>
+
+  <!--
+    -  See section Annex N.7.1.6 Double size type  and
+    -->
+  <xsd:complexType name="tDoubleSize">
+    <xsd:sequence>
+      <xsd:element name="WIDTH" type="jp:tNonNegativeDouble"/>
+      <xsd:element name="HEIGHT" type="jp:tNonNegativeDouble"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--
+    -  See section Annex N.7.1.7 Integer size type
+    -->
+  <xsd:complexType name="tIntSize">
+    <xsd:sequence>
+      <xsd:element name="WIDTH" type="xsd:positiveInteger"/>
+      <xsd:element name="HEIGHT" type="xsd:positiveInteger"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--
+    -  See section Annex N.7.1.8 DateTime type
+    -->
+  <xsd:complexType name="tDateTime">
+    <xsd:sequence>
+      <xsd:choice minOccurs="0">
+        <xsd:element name="EXACT" type="xsd:dateTime"/>
+        <xsd:element name="DATE" type="xsd:date"/>
+        <xsd:sequence>
+          <xsd:element name="MONTH" minOccurs="0">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:positiveInteger">
+                <xsd:minInclusive value="1"/>
+                <xsd:maxInclusive value="12"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element name="YEAR" type="xsd:gYear" minOccurs="0"/>
+          <xsd:element name="CENTURY" minOccurs="0">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:integer"/>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:choice>
+      <xsd:element name="WEEK_DAY" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="SEASON" type="xsd:string" minOccurs="0"/>
+      <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute ref="jp:TIMESTAMP"/>
+    <xsd:attribute ref="xml:lang"/>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.9 Address type
+    -->
+  <xsd:complexType name="tAddress">
+    <xsd:sequence>
+      <xsd:element name="ADDR_NAME" type="jp:tLangString" minOccurs="0"/>
+      <xsd:element name="ADDR_COMP" minOccurs="0" maxOccurs="unbounded">
+        <xsd:complexType>
+          <xsd:simpleContent>
+            <xsd:extension base="jp:tLangString">
+              <xsd:attribute name="TYPE" type="xsd:string"/>
+            </xsd:extension>
+          </xsd:simpleContent>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:choice minOccurs="0">
+        <xsd:element name="ZIPCODE" type="xsd:string"/>
+        <xsd:element name="POSTCODE" type="xsd:string"/>
+      </xsd:choice>
+      <xsd:element name="COUNTRY" type="jp:tLangString" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="TYPE" type="xsd:string"/>
+    <xsd:attribute ref="jp:TIMESTAMP"/>
+    <xsd:attribute ref="xml:lang"/>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.10 Phone number type
+    -->
+  <xsd:complexType name="tPhone">
+    <xsd:sequence>
+      <xsd:element name="COUNTRY_CODE" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="AREA" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="LOCAL" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="EXTENSION" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="TYPE" type="xsd:string"/>
+    <xsd:attribute ref="jp:TIMESTAMP"/>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.11 Email address type
+    -->
+  <xsd:complexType name="tEmail">
+    <xsd:simpleContent>
+      <xsd:extension base="jp:tLangString">
+        <xsd:attribute name="TYPE" type="xsd:string"/>
+        <xsd:attribute ref="jp:TIMESTAMP"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.12 Web address type
+    -->
+  <xsd:complexType name="tWeb">
+    <xsd:simpleContent>
+      <xsd:extension base="jp:tLangString">
+        <xsd:attribute name="TYPE" type="xsd:string"/>
+        <xsd:attribute ref="jp:TIMESTAMP"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.13 Person type
+    -->
+  <xsd:complexType name="tPerson">
+    <xsd:sequence>
+      <xsd:element name="NAME_TITLE" type="jp:tLangString" minOccurs="0"/>
+      <xsd:element name="PERSON_NAME" minOccurs="0" maxOccurs="unbounded">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="NAME_COMP" maxOccurs="unbounded">
+              <xsd:complexType>
+                <xsd:simpleContent>
+                  <xsd:extension base="xsd:string">
+                    <xsd:attribute name="TYPE" use="optional" default="Given">
+                      <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                          <xsd:enumeration value="Prefix"/>
+                          <xsd:enumeration value="Given"/>
+                          <xsd:enumeration value="Family"/>
+                          <xsd:enumeration value="Suffix"/>
+                          <xsd:enumeration value="Maiden"/>
+                        </xsd:restriction>
+                      </xsd:simpleType>
+                    </xsd:attribute>
+                  </xsd:extension>
+                </xsd:simpleContent>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+          <xsd:attribute ref="jp:TIMESTAMP"/>
+          <xsd:attribute ref="xml:lang"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="NICK_NAME" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="JOB_TITLE" type="xsd:string" minOccurs="0"/>
+      <xsd:choice minOccurs="0">
+        <xsd:element name="PERSON_ORG" type="jp:tOrganization"/>
+        <xsd:element name="ORG_REF" type="xsd:string"/>
+      </xsd:choice>
+      <xsd:element name="ADDRESS" type="jp:tAddress" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="PHONE" type="jp:tPhone" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="EMAIL" type="jp:tEmail" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="WEB" type="jp:tWeb" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="BIRTH_DATE" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="AGE" type="xsd:duration" minOccurs="0"/>
+      <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="ID" type="xsd:string"/>
+    <xsd:attribute ref="jp:TIMESTAMP"/>
+    <xsd:attribute ref="xml:lang"/>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.14 Organization type
+    -->
+  <xsd:complexType name="tOrganization">
+    <xsd:sequence>
+      <xsd:element name="ORG_NAME" type="jp:tLangString" minOccurs="0"/>
+      <xsd:element name="ADDRESS" type="jp:tAddress" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="PHONE" type="jp:tPhone" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="EMAIL" type="jp:tEmail" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="WEB" type="jp:tWeb" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="LOGO_FILE" type="xsd:anyURI" minOccurs="0"/>
+      <xsd:element name="LOGO_FORMAT" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="MIME_TYPE" type="xsd:string" minOccurs="0"/>
+      <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="ID" type="xsd:string"/>
+    <xsd:attribute ref="jp:TIMESTAMP"/>
+    <xsd:attribute ref="xml:lang"/>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.15 Location type
+    -->
+  <xsd:complexType name="tLocation">
+    <xsd:sequence>
+      <xsd:element ref="jp:COORD_LOC" minOccurs="0"/>
+      <xsd:element name="ADDRESS" type="jp:tAddress" minOccurs="0"/>
+      <xsd:element ref="jp:GPS" minOccurs="0"/>
+      <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute ref="jp:TIMESTAMP"/>
+    <xsd:attribute ref="xml:lang"/>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.15.1Coordinate location
+    -->
+  <xsd:element name="COORD_LOC">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="LONGITUDE" type="jp:tDegree" minOccurs="0"/>
+        <xsd:element name="LATITUDE" type="jp:tHalfDegree" minOccurs="0"/>
+        <xsd:element name="ALTITUDE" type="xsd:double" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.15.2Raw GPS Information
+    -->
+  <xsd:element name="GPS">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="GPS_LAT_REF" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="N"/>
+              <xsd:enumeration value="S"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_LATITUDE" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="D" type="xsd:nonNegativeInteger"/>
+              <xsd:element name="M" type="xsd:nonNegativeInteger"/>
+              <xsd:element name="S" type="jp:tNonNegativeDouble" minOccurs="0"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="GPS_LONG_REF" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="E"/>
+              <xsd:enumeration value="W"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_LONGITUDE" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="D" type="xsd:nonNegativeInteger"/>
+              <xsd:element name="M" type="xsd:nonNegativeInteger"/>
+              <xsd:element name="S" type="jp:tNonNegativeDouble" minOccurs="0"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="GPS_ALTITUDE" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="GPS_TIME" type="xsd:dateTime" minOccurs="0"/>
+        <xsd:element name="GPS_SATELLITES" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="GPS_STATUS" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="A"/>
+              <xsd:enumeration value="V"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_MEASURE_MODE" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:positiveInteger">
+              <xsd:minExclusive value="2"/>
+              <xsd:maxInclusive value="3"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_DOP" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="GPS_SPEED_REF" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="K"/>
+              <xsd:enumeration value="N"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_SPEED" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="GPS_TRACK_REF" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="T"/>
+              <xsd:enumeration value="M"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_TRACK" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="GPS_IMAGE_DIR_REF" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="T"/>
+              <xsd:enumeration value="M"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_IMAGE_DIR" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="GPS_MAP_DATUM" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="GPS_DEST_LAT_REF" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="N"/>
+              <xsd:enumeration value="S"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_DEST_LATITUDE" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="D" type="xsd:nonNegativeInteger"/>
+              <xsd:element name="M" type="xsd:nonNegativeInteger"/>
+              <xsd:element name="S" type="jp:tNonNegativeDouble" minOccurs="0"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="GPS_DEST_LONG_REF" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="E"/>
+              <xsd:enumeration value="W"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_DEST_LONGITUDE" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="D" type="xsd:nonNegativeInteger"/>
+              <xsd:element name="M" type="xsd:nonNegativeInteger"/>
+              <xsd:element name="S" type="jp:tNonNegativeDouble" minOccurs="0"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="GPS_DEST_BEARING_REF" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="T"/>
+              <xsd:enumeration value="M"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_DEST_BEARING" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="GPS_DEST_DISTANCE_REF" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="K"/>
+              <xsd:enumeration value="N"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="GPS_DEST_DISTANCE" type="jp:tNonNegativeDouble" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.16 Direction type
+    -->
+  <xsd:complexType name="tDirection">
+    <xsd:sequence>
+      <xsd:element name="YAW" type="jp:tDegree" minOccurs="0"/>
+      <xsd:element name="PITCH" type="jp:tHalfDegree" minOccurs="0"/>
+      <xsd:element name="ROLL" type="jp:tDegree" minOccurs="0"/>
+      <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute ref="jp:TIMESTAMP"/>
+    <xsd:attribute ref="xml:lang"/>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.17 Position type
+    -->
+  <xsd:complexType name="tPosition">
+    <xsd:sequence>
+      <xsd:choice minOccurs="0">
+        <xsd:element name="POINT" type="jp:tPoint"/>
+        <xsd:element name="RECT" type="jp:tRect"/>
+        <xsd:sequence>
+          <xsd:element name="RECT" type="jp:tRect"/>
+          <xsd:element name="REGION" type="jp:tRegion"/>
+        </xsd:sequence>
+      </xsd:choice>
+      <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute ref="jp:TIMESTAMP"/>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.18 Point type
+    -->
+  <xsd:complexType name="tPoint">
+    <xsd:sequence>
+      <xsd:element name="X" type="jp:tNonNegativeDouble"/>
+      <xsd:element name="Y" type="jp:tNonNegativeDouble"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.19 Rect type
+    -->
+  <xsd:complexType name="tRect">
+    <xsd:complexContent>
+      <xsd:extension base="jp:tPoint">
+        <xsd:sequence>
+          <xsd:element name="WIDTH" type="jp:tNonNegativeDouble"/>
+          <xsd:element name="HEIGHT" type="jp:tNonNegativeDouble"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.20 Region type
+    -->
+  <xsd:complexType name="tRegion">
+    <xsd:sequence>
+      <xsd:element name="POINT" type="jp:tPoint"/>
+      <xsd:choice minOccurs="0" maxOccurs="unbounded">
+        <xsd:element name="POINT" type="jp:tPoint"/>
+        <xsd:element name="SPLINE">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="X1" type="jp:tNonNegativeDouble"/>
+              <xsd:element name="Y1" type="jp:tNonNegativeDouble"/>
+              <xsd:element name="X2" type="jp:tNonNegativeDouble"/>
+              <xsd:element name="Y2" type="jp:tNonNegativeDouble"/>
+              <xsd:element name="X" type="jp:tNonNegativeDouble"/>
+              <xsd:element name="Y" type="jp:tNonNegativeDouble"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.1.21 Product details type
+    -->
+  <xsd:complexType name="tProductDetails">
+    <xsd:sequence>
+      <xsd:element name="MANUFACTURER" type="jp:tOrganization" minOccurs="0"/>
+      <xsd:element name="MODEL" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="SERIAL" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="VERSION" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute ref="jp:TIMESTAMP"/>
+    <xsd:attribute ref="xml:lang"/>
+  </xsd:complexType>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.7.3.1 Comment element
+    -->
+  <xsd:element name="COMMENT">
+    <xsd:complexType>
+      <xsd:simpleContent>
+        <xsd:extension base="jp:tLangString">
+          <xsd:attribute ref="jp:TIMESTAMP"/>
+        </xsd:extension>
+      </xsd:simpleContent>
+    </xsd:complexType>
+  </xsd:element>
+
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1 Image Creation metadata
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:element name="IMAGE_CREATION">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="jp:GENERAL_CREATION_INFO" minOccurs="0"/>
+        <xsd:element ref="jp:CAMERA_CAPTURE" minOccurs="0"/>
+        <xsd:element ref="jp:SCANNER_CAPTURE" minOccurs="0"/>
+        <xsd:element ref="jp:SOFTWARE_CREATION" minOccurs="0"/>
+        <xsd:element ref="jp:CAPTURED_ITEM" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.1 General Creation Information metadata
+    -->
+  <xsd:element name="GENERAL_CREATION_INFO">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="CREATION_TIME" type="xsd:dateTime" minOccurs="0"/>
+        <xsd:element name="IMAGE_SOURCE" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="SCENE_TYPE" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="IMAGE_CREATOR" type="jp:tPerson" minOccurs="0"/>
+        <xsd:element name="OPERATOR_ORG" type="jp:tOrganization" minOccurs="0"/>
+        <xsd:element name="OPERATOR_ID" type="jp:tLangString" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.2 Camera Capture metadata
+    -->
+  <xsd:element name="CAMERA_CAPTURE">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="CAMERA_INFO" type="jp:tProductDetails" minOccurs="0"/>
+        <xsd:element name="SOFTWARE_INFO" type="jp:tProductDetails" minOccurs="0"/>
+        <xsd:element name="LENS_INFO" type="jp:tProductDetails" minOccurs="0"/>
+        <xsd:element ref="jp:DEVICE_CHARACTER" minOccurs="0"/>
+        <xsd:element ref="jp:CAMERA_SETTINGS" minOccurs="0"/>
+        <xsd:element name="ACCESSORY" type="jp:tProductDetails" minOccurs="0"
+                                                                          maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.3 Device Characterization metadata
+    -->
+  <xsd:element name="DEVICE_CHARACTER">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="SENSOR_TECHNOLOGY" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="One-Chip Color Area"/>
+              <xsd:enumeration value="Two-Chip Color Area"/>
+              <xsd:enumeration value="Three-Chip Color Area"/>
+              <xsd:enumeration value="Color Sequential Area"/>
+              <xsd:enumeration value="Trilinear"/>
+              <xsd:enumeration value="Color Sequential Linear Sensor"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="FOCAL_PLANE_RES" type="jp:tDoubleSize" minOccurs="0"/>
+        <xsd:element name="SPECTRAL_SENSITIVITY" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="ISO_SATURATION" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="ISO_NOISE" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element ref="jp:SPATIAL_FREQ_RESPONSE" minOccurs="0"/>
+        <xsd:element ref="jp:CFA_PATTERN" minOccurs="0"/>
+        <xsd:element ref="jp:OECF" minOccurs="0"/>
+        <xsd:element name="MIN_F_NUMBER" type="jp:tNonNegativeDouble" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.4 Spatial Frequency Response metadata
+    -->
+  <xsd:element name="SPATIAL_FREQ_RESPONSE">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="SPATIAL_FREQ_VAL" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="SPATIAL_FREQ" type="jp:tNonNegativeDouble"/>
+              <xsd:element name="HORIZ_SFR" type="jp:tNonNegativeDouble"/>
+              <xsd:element name="VERT_SFR" type="jp:tNonNegativeDouble"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.5 Color Filter Array Pattern metadata
+    -->
+  <xsd:element name="CFA_PATTERN">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="COLOR_ROW" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="COLOR" maxOccurs="unbounded">
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="Red"/>
+                    <xsd:enumeration value="Green"/>
+                    <xsd:enumeration value="Blue"/>
+                    <xsd:enumeration value="Cyan"/>
+                    <xsd:enumeration value="Magenta"/>
+                    <xsd:enumeration value="Yellow"/>
+                    <xsd:enumeration value="White"/>
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.6 Opto-electronic Conversion Function metadata
+    -->
+  <xsd:element name="OECF">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="LOG_VAL" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="LOG_EXPOSURE" type="xsd:double"/>
+              <xsd:element name="OUTPUT_LEVEL" type="jp:tNonNegativeDouble"
+                                                                     maxOccurs="unbounded"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.7 Camera Capture Settings metadata
+    -->
+  <xsd:element name="CAMERA_SETTINGS">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:choice minOccurs="0">
+          <xsd:element name="EXP_TIME" type="jp:tNonNegativeDouble"/>
+          <xsd:element name="R_EXP_TIME" type="jp:tRational"/>
+        </xsd:choice>
+        <xsd:element name="F_NUMBER" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="EXP_PROGRAM" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="BRIGHTNESS" type="xsd:double" minOccurs="0"/>
+        <xsd:element name="EXPOSURE_BIAS" type="xsd:double" minOccurs="0"/>
+        <xsd:element name="SUBJECT_DISTANCE" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="METERING_MODE" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="SCENE_ILLUMINANT" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="COLOR_TEMP" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="FOCAL_LENGTH" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="FLASH" type="xsd:boolean" minOccurs="0"/>
+        <xsd:element name="FLASH_ENERGY" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="FLASH_RETURN" type="xsd:boolean" minOccurs="0"/>
+        <xsd:element name="BACK_LIGHT" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="Front Light"/>
+              <xsd:enumeration value="Back Light 1"/>
+              <xsd:enumeration value="Back Light 2"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="SUBJECT_POSITION" type="jp:tPosition" minOccurs="0"/>
+        <xsd:element name="EXPOSURE_INDEX" type="xsd:double" minOccurs="0"/>
+        <xsd:element name="AUTO_FOCUS" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="Auto Focus Used"/>
+              <xsd:enumeration value="Auto Focus Interrupted"/>
+              <xsd:enumeration value="Near Focused"/>
+              <xsd:enumeration value="Soft Focused"/>
+              <xsd:enumeration value="Manual"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="SPECIAL_EFFECT" minOccurs="0" maxOccurs="unbounded">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="Colored"/>
+              <xsd:enumeration value="Diffusion"/>
+              <xsd:enumeration value="Multi-Image"/>
+              <xsd:enumeration value="Polarizing"/>
+              <xsd:enumeration value="Split-Field"/>
+              <xsd:enumeration value="Star"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="CAMERA_LOCATION" type="jp:tLocation" minOccurs="0"/>
+        <xsd:element name="ORIENTATION" type="jp:tDirection" minOccurs="0"/>
+        <xsd:element name="PAR" type="jp:tRational" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.8 Scanner Capture metadata
+    -->
+  <xsd:element name="SCANNER_CAPTURE">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="SCANNER_INFO" type="jp:tProductDetails" minOccurs="0"/>
+        <xsd:element name="SOFTWARE_INFO" type="jp:tProductDetails" minOccurs="0"/>
+        <xsd:element ref="jp:SCANNER_SETTINGS" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.9 Scanner Settings metadata
+    -->
+  <xsd:element name="SCANNER_SETTINGS">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="PIXEL_SIZE" type="jp:tNonNegativeDouble" minOccurs="0"/>
+        <xsd:element name="PHYSICAL_SCAN_RES" type="jp:tDoubleSize" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.10 Software Creation metadata
+    -->
+  <xsd:element name="SOFTWARE_CREATION">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="SOFTWARE_INFO" 	type="jp:tProductDetails"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.11 Captured Item metadata
+    -->
+  <xsd:element name="CAPTURED_ITEM">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:choice>
+          <xsd:element ref="jp:REFLECTION_PRINT" minOccurs="0"/>
+          <xsd:element ref="jp:FILM" minOccurs="0"/>
+        </xsd:choice>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.12 Reflection Print metadata
+    -->
+  <xsd:element name="REFLECTION_PRINT">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="DOCUMENT_SIZE" type="jp:tDoubleSize" minOccurs="0"/>
+        <xsd:element name="MEDIUM" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="Continuous Tone Image"/>
+              <xsd:enumeration value="Halftone Image"/>
+              <xsd:enumeration value="Line Art"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="RP_TYPE" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="B/W Print"/>
+              <xsd:enumeration value="Color Print"/>
+              <xsd:enumeration value="B/W Document"/>
+              <xsd:enumeration value="Color Document"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.1.13 Film metadata
+    -->
+  <xsd:element name="FILM">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="BRAND" type="jp:tProductDetails" minOccurs="0"/>
+        <xsd:element name="CATEGORY" minOccurs="0">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="Negative B/W"/>
+              <xsd:enumeration value="Negative Color"/>
+              <xsd:enumeration value="Reversal B/W"/>
+              <xsd:enumeration value="Reversal Color"/>
+              <xsd:enumeration value="Chromagenic"/>
+              <xsd:enumeration value="Internegative B/W"/>
+              <xsd:enumeration value="Internegative Color"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="FILM_SIZE" type="jp:tDoubleSize" minOccurs="0"/>
+        <xsd:element name="ROLL_ID" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="FRAME_ID" type="xsd:positiveInteger" minOccurs="0"/>
+        <xsd:element name="FILM_SPEED" type="xsd:positiveInteger" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.2: Content Description metadata
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:element name="CONTENT_DESCRIPTION">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="GROUP_CAPTION" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="CAPTION" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="CAPTURE_TIME" type="jp:tDateTime" minOccurs="0"/>
+        <xsd:element name="LOCATION" type="jp:tLocation" minOccurs="0"/>
+        <xsd:element ref="jp:PERSON" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="jp:THING" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="jp:ORGANIZATION" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="jp:EVENT" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="jp:AUDIO" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="jp:PROPERTY" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="jp:DICTIONARY" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.2.1 Person Description metadata
+    -->
+  <xsd:element name="PERSON">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="jp:tPerson">
+          <xsd:sequence>
+            <xsd:element name="POSITION" type="jp:tPosition" minOccurs="0"/>
+            <xsd:element name="LOCATION" type="jp:tLocation" minOccurs="0"/>
+            <xsd:element ref="jp:PROPERTY" minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.2.2 Thing Description metadata
+    -->
+  <xsd:element name="THING">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="NAME" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+        <xsd:element name="POSITION" type="jp:tPosition" minOccurs="0"/>
+        <xsd:element name="LOCATION" type="jp:tLocation" minOccurs="0"/>
+        <xsd:element ref="jp:PROPERTY" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="jp:THING" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="ID" type="xsd:string"/>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.2.3 Organization Description metadata
+    -->
+  <xsd:element name="ORGANIZATION">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="jp:tOrganization">
+          <xsd:sequence>
+            <xsd:element name="POSITION" type="jp:tPosition" minOccurs="0"/>
+            <xsd:element name="LOCATION" type="jp:tLocation" minOccurs="0"/>
+            <xsd:element ref="jp:PROPERTY" minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.2.4 Event Description metadata
+    -->
+  <xsd:element name="EVENT">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="EVENT_TYPE" type="jp:tLangString"/>
+        <xsd:element name="DESCRIPTION" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="LOCATION" type="jp:tLocation" minOccurs="0"/>
+        <xsd:element name="EVENT_TIME" type="jp:tDateTime" minOccurs="0"/>
+        <xsd:element name="DURATION" type="xsd:duration" minOccurs="0"/>
+        <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+        <xsd:element ref="jp:PARTICIPANT" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="jp:EVENT_RELATION" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+          <xsd:element ref="jp:EVENT"/>
+          <xsd:element name="EVENT_REF" type="xsd:string"/>
+        </xsd:choice>
+        <!-- Sub-events -->
+      </xsd:sequence>
+      <xsd:attribute name="ID" type="xsd:string"/>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.2.5 Participant metadata
+    -->
+  <xsd:element name="PARTICIPANT">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="ROLE" type="jp:tLangString" minOccurs="0" 
+                                                                    maxOccurs="unbounded"/>
+        <xsd:choice>
+          <xsd:element name="OBJECT_REF" type="xsd:string"/>
+          <xsd:element ref="jp:PERSON"/>
+          <xsd:element ref="jp:THING"/>
+          <xsd:element ref="jp:ORGANIZATION"/>
+        </xsd:choice>
+      </xsd:sequence>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.2.6 Event Relationship metadata
+    -->
+  <xsd:element name="EVENT_RELATION">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="RELATION" type="jp:tLangString" minOccurs="0" 
+                                                                      maxOccurs="unbounded"/>
+        <xsd:element name="EVENT_REF" type="xsd:string" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.2.7 Audio metadata
+    -->
+  <xsd:element name="AUDIO">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="AUDIO_STREAM" type="xsd:anyURI"/>
+        <xsd:element name="AUDIO_FORMAT" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="MIME_TYPE" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="DESCRIPTION" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.2.8 Property metadata
+    -->
+  <xsd:element name="PROPERTY">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="NAME" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="VALUE" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+        <xsd:element ref="jp:PROPERTY" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="DICT_REF" type="xsd:string"/>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.2.9 Dictionary Definition metadata
+    -->
+  <xsd:element name="DICTIONARY">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="DICT_NAME" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element ref="jp:COMMENT" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name="DICT_ID" type="xsd:string"/>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.3 Metadata History metadata
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:element name="HISTORY">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="jp:PROCESSING_SUMMARY" minOccurs="0"/>
+        <xsd:element ref="jp:IMAGE_PROCESSING_HINTS" minOccurs="0"/>
+        <xsd:element name="METADATA" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element ref="jp:IMAGE_CREATION" minOccurs="0"/>
+              <xsd:element ref="jp:CONTENT_DESCRIPTION" minOccurs="0"/>
+              <xsd:element ref="jp:HISTORY" minOccurs="0"/>
+              <xsd:element ref="jp:IPR" minOccurs="0"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.3.1 Processing Summary metadata
+    -->
+  <xsd:element name="PROCESSING_SUMMARY">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="IMG_CREATED" minOccurs="0">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="IMG_CROPPED" minOccurs="0">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="IMG_TRANSFORMED" minOccurs="0">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="IMG_GTC_ADJ" minOccurs="0">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="IMG_STC_ADJ" minOccurs="0">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="IMG_SPATIAL_ADJ" minOccurs="0">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="IMG_EXT_EDITED" minOccurs="0">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="IMG_RETOUCHED" minOccurs="0">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="IMG_COMPOSITED" minOccurs="0">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="IMG_METADATA" minOccurs="0">
+          <xsd:complexType/>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.3.2 Image Processing Hints metadata
+    -->
+  <xsd:element name="IMAGE_PROCESSING_HINTS">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+          <xsd:element name="IMG_CREATED" type="jp:tLangString"/>
+          <xsd:element name="IMG_CROPPED" type="jp:tLangString"/>
+          <xsd:element name="IMG_TRANSFORMED" type="jp:tLangString"/>
+          <xsd:element name="IMG_GTC_ADJ" type="jp:tLangString"/>
+          <xsd:element name="IMG_STC_ADJ" type="jp:tLangString"/>
+          <xsd:element name="IMG_SPATIAL_ADJ" type="jp:tLangString"/>
+          <xsd:element name="IMG_EXT_EDITED" type="jp:tLangString"/>
+          <xsd:element name="IMG_RETOUCHED" type="jp:tLangString"/>
+          <xsd:element name="IMG_COMPOSITED" type="jp:tLangString"/>
+          <xsd:element name="IMG_METADATA" type="jp:tLangString"/>
+        </xsd:choice>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+
+ <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.4 Intellectual Property Rights metadata
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:element name="IPR">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="jp:IPR_NAMES" minOccurs="0"/>
+        <xsd:element ref="jp:IPR_DESCRIPTION" minOccurs="0"/>
+        <xsd:element ref="jp:IPR_DATES" minOccurs="0"/>
+        <xsd:element ref="jp:IPR_EXPLOITATION" minOccurs="0"/>
+        <xsd:element ref="jp:IPR_IDENTIFICATION" minOccurs="0"/>
+        <xsd:element ref="jp:IPR_CONTACT_POINT" minOccurs="0"/>
+        <xsd:element name="IPR_HISTORY" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element ref="jp:IPR" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex M:IPR Names metadata
+    -->
+  <xsd:element name="IPR_NAMES">
+    <xsd:complexType>
+      <xsd:choice maxOccurs="unbounded">
+        <xsd:element ref="jp:IPR_PERSON"/>
+        <xsd:element ref="jp:IPR_ORG"/>
+        <xsd:element ref="jp:IPR_NAME_REF"/>
+      </xsd:choice>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="IPR_PERSON">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="jp:tPerson">
+          <xsd:attribute name="DESCRIPTION" type="xsd:string"/>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="IPR_ORG">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="jp:tOrganization">
+          <xsd:attribute name="DESCRIPTION" type="xsd:string"/>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="IPR_NAME_REF">
+    <xsd:complexType>
+      <xsd:simpleContent>
+        <xsd:extension base="xsd:string">
+          <xsd:attribute name="DESCRIPTION" type="xsd:string"/>
+        </xsd:extension>
+      </xsd:simpleContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.4.2 IPR Description metadata
+    -->
+  <xsd:element name="IPR_DESCRIPTION">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="IPR_TITLE" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="IPR_LEGEND" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="IPR_CAPTION" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="COPYRIGHT" type="jp:tLangString" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.4.3 IPR Dates metadata
+    -->
+  <xsd:element name="IPR_DATES">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="IPR_DATE" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:complexContent>
+              <xsd:extension base="jp:tDateTime">
+                <xsd:attribute name="DESCRIPTION" type="xsd:string"/>
+              </xsd:extension>
+            </xsd:complexContent>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.4.4 IPR Exploitation metadata
+    -->
+  <xsd:element name="IPR_EXPLOITATION">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="IPR_PROTECTION" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="IPR_USE_RESTRICTION" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="IPR_OBLIGATION" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element ref="jp:IPR_MGMT_SYS" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.4.5 IPR Management System metadata
+    -->
+  <xsd:element name="IPR_MGMT_SYS">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="IPR_MGMT_TYPE" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="IPR_MGMT_SYS_ID" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="IPR_MGMT_SYS_LOCATION" type="xsd:anyURI" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.4.6 IPR Identification metadata
+    -->
+  <xsd:element name="IPR_IDENTIFICATION">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="jp:IPR_IDENTIFIER" minOccurs="0"/>
+        <xsd:element ref="jp:LICENCE_PLATE" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.4.7 Generic IPR Identifier metadata
+    -->
+  <xsd:element name="IPR_IDENTIFIER">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="IPR_ID_MODE" type="jp:tLangString" minOccurs="0"/>
+        <xsd:element name="IPR_ID" type="jp:tLangString" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.4.8 License Plate metadata
+    -->
+  <xsd:element name="LICENCE_PLATE">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="LP_COUNTRY" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="LP_REG_AUT" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="LP_REG_NUM" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="DELIVERY_DATE" type="xsd:dateTime" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N.6.4.9 IPR Contact Point metadata
+    -->
+  <xsd:element name="IPR_CONTACT_POINT">
+    <xsd:complexType>
+      <xsd:choice>
+        <xsd:element ref="jp:IPR_PERSON"/>
+        <xsd:element ref="jp:IPR_ORG"/>
+        <xsd:element ref="jp:IPR_NAME_REF"/>
+      </xsd:choice>
+      <xsd:attribute ref="jp:TIMESTAMP"/>
+      <xsd:attribute ref="xml:lang"/>
+    </xsd:complexType>
+  </xsd:element>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    -  See section Annex N:N.6.5 Image Identifier metadata
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:element name="IMAGE_ID">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="UID" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="ID_TYPE" type="xsd:anyURI" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>

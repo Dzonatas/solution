@@ -1,0 +1,687 @@
+<!-- 
+    Copyright (C) ISO/IEC 2001 - All rights reserved.
+
+    Permission to copy in any form is granted for use with validating and conforming
+    systems and applications as defined in ISO/IEC 15444-2:2001, provided this
+    copyright notice is included with all copies.
+-->
+
+<!-- ======================================================================= -->
+<!-- Fundamental Type and Element Definitions                                -->
+<!-- ======================================================================= -->
+
+<!-- HUMAN_SCHEMA_DTD_LOCATION:http://www.jpeg.org/metadata/15444-2.PDF -->
+
+<!-- Attribute definitions -->
+
+<!ENTITY % att-timestamp                     "TIMESTAMP CDATA #IMPLIED">
+<!ENTITY % att-lang                          "xml:lang CDATA #IMPLIED">
+<!ENTITY % att-lang-ts                       "%att-lang; %att-timestamp;">
+<!ENTITY % att-lang-ts-id                    "%att-lang-ts; ID CDATA #IMPLIED">
+
+<!-- Geometric Type -->
+
+<!ENTITY % size                             "(WIDTH, HEIGHT)">
+
+<!-- Date Type -->
+
+<!ENTITY % jp2-tDateTime                    "(EXACT | DATE |
+                                             (MONTH?, YEAR?, CENTURY?)),
+                                             WEEK_DAY?, SEASON?, COMMENT?">
+
+<!ELEMENT EXACT                             (#PCDATA)>
+<!ELEMENT DATE                              (#PCDATA)>
+<!ELEMENT MONTH                             (#PCDATA)>
+<!ELEMENT YEAR                              (#PCDATA)>
+<!ELEMENT CENTURY                           (#PCDATA)>
+<!ELEMENT WEEK_DAY                          (#PCDATA)>
+<!ELEMENT SEASON                            (#PCDATA)>
+
+<!--  Address type -->
+
+<!ENTITY % jp2-tAddress                    "(ADDR_NAME?, ADDR_COMP*,
+                                            (POSTCODE | ZIPCODE)?,
+                                            COUNTRY?)">
+<!ELEMENT ADDRESS                           %jp2-tAddress;>
+<!ATTLIST ADDRESS                           TYPE CDATA #IMPLIED
+                                            %att-lang-ts;>
+
+<!ELEMENT ADDR_NAME                        (#PCDATA)>
+<!ATTLIST ADDR_NAME                        %att-lang;>
+
+<!ELEMENT ADDR_COMP                        (#PCDATA)>
+<!ATTLIST ADDR_COMP                        TYPE CDATA #IMPLIED>
+
+<!ELEMENT POSTCODE                         (#PCDATA)>
+<!ELEMENT ZIPCODE                          (#PCDATA)>
+
+<!ELEMENT COUNTRY                          (#PCDATA)>
+<!ATTLIST COUNTRY                          %att-lang;>
+
+<!--  Phone number type -->
+
+<!ENTITY % jp2-tPhone                     "(COUNTRY_CODE?, AREA?,
+                                           LOCAL?, EXTENSION?)">
+<!ATTLIST PHONE                            TYPE CDATA #IMPLIED
+                                           %att-timestamp;>
+<!ELEMENT PHONE                            %jp2-tPhone;>
+
+<!ELEMENT COUNTRY_CODE                     (#PCDATA)>
+<!ELEMENT AREA                             (#PCDATA)>
+<!ELEMENT LOCAL                            (#PCDATA)>
+<!ELEMENT EXTENSION                        (#PCDATA)>
+
+<!-- Email Address Type-->
+
+<!ELEMENT EMAIL                             (#PCDATA)>
+<!ATTLIST EMAIL                             TYPE CDATA #IMPLIED>
+
+<!-- Web Address Type-->
+
+<!ELEMENT WEB                               (#PCDATA)>
+<!ATTLIST WEB                               TYPE CDATA #IMPLIED>
+
+<!-- Organization type -->
+
+<!ENTITY % jp2-tOrganization               "(ORG_NAME?, 
+                                            ADDRESS*, PHONE*, EMAIL*, WEB*, 
+                                            LOGO_FILE?, LOGO_FORMAT?, MIME_TYPE?, COMMENT?)">
+
+<!ELEMENT ORG_NAME                          (#PCDATA)>
+<!ATTLIST ORG_NAME                          %att-lang;>
+
+<!ELEMENT LOGO_FILE                         (#PCDATA)>
+<!ELEMENT LOGO_FORMAT                       (#PCDATA)>
+<!ELEMENT MIME_TYPE                         (#PCDATA)>
+
+<!-- Person Type-->
+
+<!ENTITY % jp2-tPerson                      "(NAME_TITLE?, 
+                                             PERSON_NAME*, NICK_NAME*, 
+                                             JOB_TITLE?,
+                                             (PERSON_ORG | ORG_REF)?,
+                                             ADDRESS*, PHONE*, EMAIL*, WEB*, 
+                                             BIRTH_DATE?, AGE?, 
+                                             COMMENT?)">
+
+<!ELEMENT NAME_TITLE                        (#PCDATA)>
+<!ATTLIST NAME_TITLE                        %att-lang;>
+
+<!ELEMENT PERSON_NAME                       (NAME_COMP+)>
+<!ATTLIST PERSON_NAME                       %att-lang-ts;>
+
+<!ELEMENT NAME_COMP                         (#PCDATA)>
+<!ATTLIST NAME_COMP                         TYPE (Prefix | Given | Family |
+                                                  Suffix | Maiden) "Given">
+
+<!ELEMENT NICK_NAME                         (#PCDATA)>
+<!ELEMENT JOB_TITLE                         (#PCDATA)>
+
+<!ELEMENT PERSON_ORG                        %jp2-tOrganization;>
+<!ATTLIST PERSON_ORG                        %att-lang-ts-id;>
+
+<!ELEMENT ORG_REF                           (#PCDATA)>
+
+<!ELEMENT BIRTH_DATE                        (#PCDATA)>
+<!ELEMENT AGE                               (#PCDATA)>
+
+<!-- Location type -->
+
+<!ENTITY % jp2-tLocation                   "(COORD_LOC?, ADDRESS?,
+                                            GPS?, COMMENT?)">
+<!ELEMENT LOCATION                          %jp2-tLocation;>
+<!ATTLIST LOCATION                          %att-lang-ts;>
+
+<!ELEMENT COORD_LOC                        (LONGITUDE?, LATITUDE?, ALTITUDE?)>
+<!ATTLIST COORD_LOC                         %att-timestamp;>
+
+<!ELEMENT LONGITUDE                         (#PCDATA)>
+<!ELEMENT LATITUDE                          (#PCDATA)>
+<!ELEMENT ALTITUDE                          (#PCDATA)>
+
+<!-- GPS type -->
+
+<!ELEMENT GPS                              (GPS_LAT_REF?, GPS_LATITUDE?,
+                                            GPS_LONG_REF?, GPS_LONGITUDE?,
+                                            GPS_ALTITUDE?, GPS_TIME?,
+                                            GPS_SATELLITES?, GPS_STATUS?,
+                                            GPS_MEASURE_MODE?, GPS_DOP?,
+                                            GPS_SPEED_REF?, GPS_SPEED?,
+                                            GPS_TRACK_REF?, GPS_TRACK?, 
+                                            GPS_IMAGE_DIR_REF?, GPS_IMAGE_DIR?,
+                                            GPS_MAP_DATUM?, 
+                                            GPS_DEST_LAT_REF?,
+                                            GPS_DEST_LATITUDE?,
+                                            GPS_DEST_LONG_REF?,
+                                            GPS_DEST_LONGITUDE?,
+                                            GPS_DEST_BEARING_REF?, 
+                                            GPS_DEST_BEARING?, 
+                                            GPS_DEST_DISTANCE_REF?,
+                                            GPS_DEST_DISTANCE?)>
+
+<!ELEMENT GPS_LAT_REF                      (#PCDATA)>
+<!ELEMENT GPS_LATITUDE                     (D, M, S?)>
+<!ELEMENT GPS_LONG_REF                     (#PCDATA)>
+<!ELEMENT GPS_LONGITUDE                    (D, M, S?)>
+<!ELEMENT GPS_ALTITUDE                     (#PCDATA)>
+<!ELEMENT GPS_TIME                         (#PCDATA)>
+<!ELEMENT GPS_SATELLITES                   (#PCDATA)>
+<!ELEMENT GPS_STATUS                       (#PCDATA)>
+<!ELEMENT GPS_MEASURE_MODE                 (#PCDATA)>
+<!ELEMENT GPS_DOP                          (#PCDATA)>
+<!ELEMENT GPS_SPEED_REF                    (#PCDATA)>
+<!ELEMENT GPS_SPEED                        (#PCDATA)>
+<!ELEMENT GPS_TRACK_REF                    (#PCDATA)>
+<!ELEMENT GPS_TRACK                        (#PCDATA)>
+<!ELEMENT GPS_IMAGE_DIR_REF                (#PCDATA)>
+<!ELEMENT GPS_IMAGE_DIR                    (#PCDATA)>
+<!ELEMENT GPS_MAP_DATUM                    (#PCDATA)>
+<!ELEMENT GPS_DEST_LAT_REF                 (#PCDATA)>
+<!ELEMENT GPS_DEST_LATITUDE                (D, M, S?)>
+<!ELEMENT GPS_DEST_LONG_REF                (#PCDATA)>
+<!ELEMENT GPS_DEST_LONGITUDE               (D, M, S?)>
+<!ELEMENT GPS_DEST_BEARING_REF             (#PCDATA)>
+<!ELEMENT GPS_DEST_BEARING                 (#PCDATA)>
+<!ELEMENT GPS_DEST_DISTANCE_REF            (#PCDATA)>
+<!ELEMENT GPS_DEST_DISTANCE                (#PCDATA)>
+
+<!ELEMENT D                                (#PCDATA)>
+<!ELEMENT M                                (#PCDATA)>
+<!ELEMENT S                                (#PCDATA)>
+
+<!-- Direction type-->
+
+<!ENTITY % jp2-tDirection                 "(YAW?, PITCH?, ROLL?, COMMENT?)">
+<!ELEMENT DIRECTION                        %jp2-tDirection;>
+<!ATTLIST DIRECTION                        %att-lang-ts;>
+
+<!ELEMENT YAW                              (#PCDATA)>
+<!ELEMENT PITCH                            (#PCDATA)>
+<!ELEMENT ROLL                             (#PCDATA)>
+
+<!-- Position type -->
+<!ENTITY % jp2-tPosition                  "((POINT | RECT | (RECT, REGION))?,
+                                           COMMENT?)">
+<!ELEMENT POSITION                         %jp2-tPosition;>
+<!ATTLIST POSITION                         %att-lang-ts;>
+
+<!ELEMENT POINT                            (X, Y)>
+<!ELEMENT RECT                             (X, Y, WIDTH, HEIGHT)>
+<!ELEMENT SPLINE                           (X1, Y1, X2, Y2, X, Y)>
+<!ELEMENT REGION                           (POINT, (POINT | SPLINE)*)>
+
+<!ELEMENT X                                (#PCDATA)>
+<!ELEMENT Y                                (#PCDATA)>
+<!ELEMENT WIDTH                            (#PCDATA)>
+<!ELEMENT HEIGHT                           (#PCDATA)>
+<!ELEMENT X1                               (#PCDATA)>
+<!ELEMENT Y1                               (#PCDATA)>
+<!ELEMENT X2                               (#PCDATA)>
+<!ELEMENT Y2                               (#PCDATA)>
+
+<!-- Product Details Type -->
+
+<!ENTITY % jp2-tProductDetails             "(MANUFACTURER?, MODEL?, SERIAL?, VERSION?)">
+
+<!ELEMENT MANUFACTURER                     %jp2-tOrganization;>
+<!ATTLIST MANUFACTURER                     %att-lang-ts-id;>
+<!ELEMENT MODEL                            (#PCDATA)>
+<!ELEMENT SERIAL                           (#PCDATA)>
+<!ELEMENT VERSION                          (#PCDATA)>
+
+<!-- Comment element -->
+
+<!ELEMENT COMMENT                          (#PCDATA)>
+<!ATTLIST COMMENT                          %att-lang-ts;>
+
+
+<!-- ======================================================================= -->
+<!-- Image Creation Metadata                                                 -->
+<!-- ======================================================================= -->
+
+<!ELEMENT IMAGE_CREATION                   (GENERAL_CREATION_INFO?,
+                                            CAMERA_CAPTURE?,
+                                            SCANNER_CAPTURE?,
+                                            SOFTWARE_CREATION?,
+                                            CAPTURED_ITEM?)>
+<!ATTLIST IMAGE_CREATION                    %att-lang-ts;>
+
+<!-- General Image Creation -->
+
+<!ELEMENT GENERAL_CREATION_INFO            (CREATION_TIME?, IMAGE_SOURCE?,
+                                            SCENE_TYPE?, IMAGE_CREATOR?,
+                                            OPERATOR_ORG?, OPERATOR_ID?)>
+<!ATTLIST GENERAL_CREATION_INFO             %att-lang-ts;>
+
+<!ELEMENT CREATION_TIME                     (#PCDATA)>
+
+<!ELEMENT IMAGE_SOURCE                      (#PCDATA)>
+<!ATTLIST IMAGE_SOURCE                      %att-lang;>
+
+<!ELEMENT SCENE_TYPE                        (#PCDATA)>
+<!ATTLIST SCENE_TYPE                        %att-lang;>
+
+<!ELEMENT IMAGE_CREATOR                     %jp2-tPerson;>
+<!ATTLIST IMAGE_CREATOR                     %att-lang-ts-id;>
+
+<!ELEMENT OPERATOR_ORG                      %jp2-tOrganization;>
+<!ATTLIST OPERATOR_ORG                      %att-lang-ts-id;>
+
+<!ELEMENT OPERATOR_ID                       (#PCDATA)>
+<!ATTLIST OPERATOR_ID                       %att-lang;>
+
+<!-- Camera capture -->
+
+<!ELEMENT CAMERA_CAPTURE                   (CAMERA_INFO?, SOFTWARE_INFO?,
+                                            LENS_INFO?, DEVICE_CHARACTER?,
+                                            CAMERA_SETTINGS?, ACCESSORY*)>
+<!ATTLIST CAMERA_CAPTURE                    %att-lang-ts;>
+
+<!ELEMENT CAMERA_INFO                       %jp2-tProductDetails;>
+<!ATTLIST CAMERA_INFO                       %att-lang-ts;>
+
+<!ELEMENT SOFTWARE_INFO                     %jp2-tProductDetails;>
+<!ATTLIST SOFTWARE_INFO                     %att-lang-ts;>
+
+<!ELEMENT LENS_INFO                         %jp2-tProductDetails;>
+<!ATTLIST LENS_INFO                         %att-lang-ts;>
+
+<!ELEMENT DEVICE_CHARACTER                 (SENSOR_TECHNOLOGY?,
+                                            FOCAL_PLANE_RES?,
+                                            SPECTRAL_SENSITIVITY?,
+                                            ISO_SATURATION?, ISO_NOISE?,
+                                            SPATIAL_FREQ_RESPONSE?,
+                                            CFA_PATTERN?, OECF?, MIN_F_NUMBER?)>
+<!ATTLIST DEVICE_CHARACTER                  %att-lang-ts;>
+
+<!ELEMENT SENSOR_TECHNOLOGY                 (#PCDATA)>
+
+<!ELEMENT FOCAL_PLANE_RES                   %size;>
+
+<!ELEMENT SPECTRAL_SENSITIVITY              ANY>
+<!ELEMENT ISO_SATURATION                    (#PCDATA)>
+<!ELEMENT ISO_NOISE                         (#PCDATA)>
+
+<!ELEMENT SPATIAL_FREQ_RESPONSE             (SPATIAL_FREQ_VAL+)>
+<!ELEMENT SPATIAL_FREQ_VAL                  (SPATIAL_FREQ, HORIZ_SFR, VERT_SFR)>
+<!ELEMENT SPATIAL_FREQ                      (#PCDATA)>
+<!ELEMENT HORIZ_SFR                         (#PCDATA)>
+<!ELEMENT VERT_SFR                          (#PCDATA)>
+
+<!ELEMENT CFA_PATTERN                       (COLOR_ROW+)>
+<!ELEMENT COLOR_ROW                         (COLOR+)>
+<!ELEMENT COLOR                             (#PCDATA)>
+
+<!ELEMENT OECF                              (LOG_VAL+)>
+<!ELEMENT LOG_VAL                           (LOG_EXPOSURE, OUTPUT_LEVEL+)>
+<!ELEMENT LOG_EXPOSURE                      (#PCDATA)>
+<!ELEMENT OUTPUT_LEVEL                      (#PCDATA)>
+
+<!ELEMENT MIN_F_NUMBER                      (#PCDATA)>
+
+<!-- Camera Capture Settings -->
+
+<!ELEMENT CAMERA_SETTINGS                  ((EXP_TIME | R_EXP_TIME)?,
+                                            F_NUMBER?, EXP_PROGRAM?,
+                                            BRIGHTNESS?, EXPOSURE_BIAS?,
+                                            SUBJECT_DISTANCE?, METERING_MODE?,
+                                            SCENE_ILLUMINANT?, COLOR_TEMP?,
+                                            FOCAL_LENGTH?, FLASH?,
+                                            FLASH_ENERGY?, FLASH_RETURN?,
+                                            BACK_LIGHT?, SUBJECT_POSITION?,
+                                            EXPOSURE_INDEX?, AUTO_FOCUS?,
+                                            SPECIAL_EFFECT*, CAMERA_LOCATION?,
+                                            ORIENTATION?, PAR?)>
+<!ATTLIST CAMERA_SETTINGS                   %att-lang-ts;>
+
+<!ELEMENT EXP_TIME                          (#PCDATA)>
+<!ELEMENT R_EXP_TIME                        (#PCDATA)>
+<!ELEMENT F_NUMBER                          (#PCDATA)>
+<!ELEMENT EXP_PROGRAM                       (#PCDATA)>
+<!ATTLIST EXP_PROGRAM                       %att-lang;>
+<!ELEMENT BRIGHTNESS                        (#PCDATA)>
+<!ELEMENT EXPOSURE_BIAS                     (#PCDATA)>
+<!ELEMENT SUBJECT_DISTANCE                  (#PCDATA)>
+<!ELEMENT METERING_MODE                     (#PCDATA)>
+<!ATTLIST METERING_MODE                     %att-lang;>
+<!ELEMENT SCENE_ILLUMINANT                  (#PCDATA)>
+<!ATTLIST SCENE_ILLUMINANT                  %att-lang;>
+<!ELEMENT COLOR_TEMP                        (#PCDATA)>
+<!ELEMENT FOCAL_LENGTH                      (#PCDATA)>
+<!ELEMENT FLASH                             (#PCDATA)>
+<!ELEMENT FLASH_ENERGY                      (#PCDATA)>
+<!ELEMENT FLASH_RETURN                      (#PCDATA)>
+<!ELEMENT BACK_LIGHT                        (#PCDATA)>
+<!ELEMENT SUBJECT_POSITION                  %jp2-tPosition;>
+<!ATTLIST SUBJECT_POSITION                  %att-lang-ts;>
+<!ELEMENT EXPOSURE_INDEX                    (#PCDATA)>
+<!ELEMENT AUTO_FOCUS                        (#PCDATA)>
+<!ELEMENT SPECIAL_EFFECT                    (#PCDATA)>
+<!ELEMENT CAMERA_LOCATION                   %jp2-tLocation;>
+<!ATTLIST CAMERA_LOCATION                   %att-lang-ts;>
+<!ELEMENT ORIENTATION                       %jp2-tDirection;>
+<!ATTLIST ORIENTATION                       %att-lang-ts;>
+<!ELEMENT PAR                               (#PCDATA)>
+
+<!ELEMENT ACCESSORY                         %jp2-tProductDetails;>
+<!ATTLIST ACCESSORY                         %att-lang-ts;>
+
+<!-- Scanner Capture -->
+
+<!ELEMENT SCANNER_CAPTURE                  (SCANNER_INFO?, SOFTWARE_INFO?,
+                                            SCANNER_SETTINGS?)>
+<!ATTLIST SCANNER_CAPTURE                   %att-lang-ts;>
+
+<!ELEMENT SCANNER_INFO                      %jp2-tProductDetails;>
+<!ATTLIST SCANNER_INFO                      %att-lang-ts;>
+
+<!ELEMENT SCANNER_SETTINGS                 (PIXEL_SIZE?, PHYSICAL_SCAN_RES?)>
+<!ATTLIST SCANNER_SETTINGS                  %att-timestamp;>
+
+<!ELEMENT PIXEL_SIZE                        (#PCDATA)>
+<!ELEMENT PHYSICAL_SCAN_RES                 %size;>
+
+<!-- Software Creation -->
+<!ELEMENT SOFTWARE_CREATION                 (SOFTWARE_INFO?)>
+
+<!-- Captured Item --> 
+
+<!ELEMENT CAPTURED_ITEM                    (REFLECTION_PRINT | FILM)>
+<!ATTLIST CAPTURED_ITEM                     %att-lang-ts;>
+
+<!-- Reflection print -->
+
+<!ELEMENT REFLECTION_PRINT                 (DOCUMENT_SIZE?, MEDIUM?, RP_TYPE?)>
+
+<!ELEMENT DOCUMENT_SIZE                     %size;>
+<!ELEMENT MEDIUM                            (#PCDATA)>
+<!ELEMENT RP_TYPE                           (#PCDATA)>
+
+<!-- Film -->
+
+<!ELEMENT FILM                             (BRAND?, CATEGORY?, FILM_SIZE?,
+                                            ROLL_ID?, FRAME_ID?, FILM_SPEED?)>
+<!ATTLIST FILM                              %att-lang-ts;>
+
+<!ELEMENT BRAND                             %jp2-tProductDetails;>
+<!ATTLIST BRAND                             %att-lang-ts;>
+<!ELEMENT CATEGORY                          (#PCDATA)>
+<!ELEMENT FILM_SIZE                         %size;>
+<!ELEMENT ROLL_ID                           (#PCDATA)>
+<!ATTLIST ROLL_ID                           %att-lang;>
+<!ELEMENT FRAME_ID                          (#PCDATA)>
+<!ELEMENT FILM_SPEED                        (#PCDATA)>
+
+
+<!-- ======================================================================= -->
+<!-- Content Description                                                     -->
+<!-- ======================================================================= -->
+
+<!ELEMENT CONTENT_DESCRIPTION              (GROUP_CAPTION?, CAPTION?,
+                                            CAPTURE_TIME?, LOCATION?,
+                                            PERSON*, THING*, ORGANIZATION*,
+                                            EVENT*, AUDIO*, PROPERTY*,
+                                            DICTIONARY*, COMMENT?)>
+<!ATTLIST CONTENT_DESCRIPTION               %att-lang-ts;>
+
+
+<!ELEMENT GROUP_CAPTION                     (#PCDATA)>
+<!ATTLIST GROUP_CAPTION                     %att-lang;>
+
+<!ELEMENT CAPTION                           (#PCDATA)>
+<!ATTLIST CAPTION                           %att-lang;>
+
+<!ELEMENT CAPTURE_TIME                     (%jp2-tDateTime;)>
+<!ATTLIST CAPTURE_TIME                      %att-lang-ts;>
+
+<!-- Person -->
+
+<!ELEMENT PERSON                           (%jp2-tPerson;, POSITION?,
+                                            LOCATION?, PROPERTY*)>
+<!ATTLIST PERSON                            %att-lang-ts-id;>
+
+<!-- Thing -->
+
+<!ELEMENT THING                            (NAME?, COMMENT?, POSITION?,
+                                            LOCATION?, PROPERTY*, THING*)>
+<!ATTLIST THING                             %att-lang-ts-id;>
+
+<!-- Organization -->
+
+<!ELEMENT ORGANIZATION                     (%jp2-tOrganization;, POSITION?,
+                                            LOCATION?, PROPERTY*)>
+<!ATTLIST ORGANIZATION                      %att-lang-ts-id;>
+
+<!-- Event -->
+
+<!ELEMENT EVENT                            (EVENT_TYPE?, DESCRIPTION?,
+                                            LOCATION?, EVENT_TIME?, DURATION?,
+                                            COMMENT?, PARTICIPANT*,
+                                            EVENT_RELATION*,
+                                            (EVENT | EVENT_REF)*)>
+<!ATTLIST EVENT                             %att-lang-ts-id;>
+
+<!ELEMENT EVENT_TYPE                        (#PCDATA)>
+<!ATTLIST EVENT_TYPE                        %att-lang;>
+
+<!ELEMENT DESCRIPTION                       (#PCDATA)>
+<!ATTLIST DESCRIPTION                       %att-lang;>
+
+<!ELEMENT EVENT_TIME                       (%jp2-tDateTime;)>
+<!ATTLIST EVENT_TIME                        %att-lang-ts;>
+
+<!ELEMENT DURATION                          (#PCDATA)>
+
+<!ELEMENT PARTICIPANT                      (ROLE+, 
+                                            (OBJECT_REF | PERSON | THING | ORGANIZATION))>
+<!ATTLIST PARTICIPANT                       %att-lang;>
+
+<!ELEMENT ROLE                              (#PCDATA)>
+<!ATTLIST ROLE                              %att-lang;>
+
+<!ELEMENT OBJECT_REF                       (#PCDATA)>
+
+<!ELEMENT EVENT_RELATION                   (RELATION*, EVENT_REF+)>
+
+<!ELEMENT RELATION                          (#PCDATA)>
+<!ATTLIST RELATION                          %att-lang;>
+
+<!ELEMENT EVENT_REF                         (#PCDATA)>
+
+<!-- Audio -->
+
+<!ELEMENT AUDIO                            (AUDIO_STREAM?, AUDIO_FORMAT?,
+                                            MIME_TYPE?, DESCRIPTION?, COMMENT?)>
+<!ATTLIST AUDIO                             %att-lang-ts;>
+
+<!ELEMENT AUDIO_STREAM                      (#PCDATA)>
+<!ELEMENT AUDIO_FORMAT                      (#PCDATA)>
+
+<!-- Property -->
+
+<!ELEMENT PROPERTY                         (NAME?, VALUE*, COMMENT?, PROPERTY*)>
+<!ATTLIST PROPERTY                          %att-lang-ts;
+                                            DICT_REF CDATA #IMPLIED>
+
+<!ELEMENT NAME                             (#PCDATA)>
+<!ATTLIST NAME                              %att-lang;>
+
+<!ELEMENT VALUE                            (#PCDATA)>
+<!ATTLIST VALUE                             %att-lang;>
+
+<!-- Dictionary Reference -->
+
+<!ELEMENT DICTIONARY                       (DICT_NAME?, COMMENT?)>
+<!ATTLIST DICTIONARY                        %att-lang-ts-id;>
+
+<!ELEMENT DICT_NAME                         (#PCDATA)>
+<!ATTLIST DICT_NAME                         %att-lang;>
+
+<!-- ======================================================================= -->
+<!-- History                                                                 -->
+<!-- ======================================================================= -->
+
+<!ELEMENT HISTORY                          (PROCESSING_SUMMARY?,
+                                            IMAGE_PROCESSING_HINTS?, METADATA*)>
+<!ATTLIST HISTORY                           %att-lang-ts;>
+<!ELEMENT METADATA                          (BASIC_IMAGE_PARAM?, IMAGE_CREATION?,
+                                             CONTENT_DESCRIPTION?,
+                                             HISTORY?,
+                                             IPR?)>
+
+<!-- Summary -->
+
+<!ELEMENT PROCESSING_SUMMARY               (IMG_CREATED?, IMG_CROPPED?,
+                                            IMG_TRANSFORMED?, IMG_GTC_ADJ?,
+                                            IMG_STC_ADJ?, IMG_SPATIAL_ADJ?,
+                                            IMG_EXT_EDITED?, IMG_RETOUCHED?,
+                                            IMG_COMPOSITED?, IMG_METADATA?)>
+<!ATTLIST PROCESSING_SUMMARY                %att-timestamp;>
+
+<!ELEMENT IMAGE_PROCESSING_HINTS           (IMG_CREATED | IMG_CROPPED |
+                                            IMG_TRANSFORMED | IMG_GTC_ADJ |
+                                            IMG_STC_ADJ | IMG_SPATIAL_ADJ |
+                                            IMG_EXT_EDITED | IMG_RETOUCHED |
+                                            IMG_COMPOSITED | IMG_METADATA)*>
+<!ATTLIST IMAGE_PROCESSING_HINTS            %att-lang-ts;>
+
+<!ELEMENT IMG_CREATED                       (#PCDATA)>
+<!ELEMENT IMG_CROPPED                       (#PCDATA)>
+<!ELEMENT IMG_TRANSFORMED                   (#PCDATA)>
+<!ELEMENT IMG_GTC_ADJ                       (#PCDATA)>
+<!ELEMENT IMG_STC_ADJ                       (#PCDATA)>
+<!ELEMENT IMG_SPATIAL_ADJ                   (#PCDATA)>
+<!ELEMENT IMG_EXT_EDITED                    (#PCDATA)>
+<!ELEMENT IMG_RETOUCHED                     (#PCDATA)>
+<!ELEMENT IMG_COMPOSITED                    (#PCDATA)>
+<!ELEMENT IMG_METADATA                      (#PCDATA)>
+
+<!-- Previous -->
+<!ELEMENT BASIC_IMAGE_PARAM                (BASIC_IMAGE_INFO)>
+<!ATTLIST BASIC_IMAGE_PARAM                 %att-lang-ts;>
+
+<!ELEMENT BASIC_IMAGE_INFO                 (FILE_FORMAT?, IMAGE_ID?)>
+<!ATTLIST BASIC_IMAGE_INFO                  %att-lang-ts;>
+
+
+<!-- ======================================================================= -->
+<!-- Intellectual Property Rights                                            -->
+<!-- ======================================================================= -->
+
+<!ELEMENT IPR                              (IPR_NAMES?, IPR_DESCRIPTION?,
+                                            IPR_DATES?, IPR_EXPLOITATION?,
+                                            IPR_IDENTIFICATION?,
+                                            IPR_CONTACT_POINT?, IPR_HISTORY?)>
+<!ATTLIST IPR                               %att-lang-ts;>
+
+<!-- IPR people -->
+
+<!ELEMENT IPR_NAMES                        (IPR_PERSON?, IPR_ORG?, IPR_NAME_REF?)+>
+<!ATTLIST IPR_NAMES                         %att-lang-ts;>
+
+<!ELEMENT IPR_PERSON                        %jp2-tPerson;>
+<!ATTLIST IPR_PERSON                        DESCRIPTION CDATA #IMPLIED
+                                            %att-lang-ts-id;>
+
+<!ELEMENT IPR_ORG                           %jp2-tOrganization;>
+<!ATTLIST IPR_ORG                           DESCRIPTION CDATA #IMPLIED
+                                            %att-lang-ts-id;>
+
+<!ELEMENT IPR_NAME_REF                     (#PCDATA)>
+<!ATTLIST IPR_NAME_REF                      DESCRIPTION CDATA #IMPLIED>
+
+<!-- IPR description -->
+
+<!ELEMENT IPR_DESCRIPTION                  (IPR_TITLE?, IPR_LEGEND?,
+                                            IPR_CAPTION?, COPYRIGHT?)>
+
+<!ELEMENT IPR_TITLE                        (#PCDATA)>
+<!ATTLIST IPR_TITLE                         %att-lang-ts;>
+
+<!ELEMENT IPR_LEGEND                       (#PCDATA)>
+<!ATTLIST IPR_LEGEND                        %att-lang-ts;>
+
+<!ELEMENT IPR_CAPTION                      (#PCDATA)>
+<!ATTLIST IPR_CAPTION                       %att-lang-ts;>
+
+<!ELEMENT COPYRIGHT                        (#PCDATA)>
+<!ATTLIST COPYRIGHT                         %att-lang-ts;>
+
+
+<!ELEMENT IPR_DATES                        (IPR_DATE+)>
+<!ATTLIST IPR_DATES                         %att-lang-ts;>
+
+<!ELEMENT IPR_DATE                         (%jp2-tDateTime;)>
+<!ATTLIST IPR_DATE                          DESCRIPTION CDATA #IMPLIED
+                                            %att-lang-ts;>
+
+<!-- IPR exploitation -->
+
+<!ELEMENT IPR_EXPLOITATION                 (IPR_PROTECTION?,
+                                            IPR_USE_RESTRICTION?,
+                                            IPR_OBLIGATION?,
+                                            IPR_MGMT_SYS?)>
+<!ATTLIST IPR_EXPLOITATION                  %att-lang-ts;>
+
+<!ELEMENT IPR_PROTECTION                   (#PCDATA)>
+
+<!ELEMENT IPR_USE_RESTRICTION              (#PCDATA)>
+<!ATTLIST IPR_USE_RESTRICTION               %att-lang;>
+
+<!ELEMENT IPR_OBLIGATION                   (#PCDATA)>
+<!ATTLIST IPR_OBLIGATION                    %att-lang;>
+
+<!-- IPR management system -->
+
+<!ELEMENT IPR_MGMT_SYS                     (IPR_MGMT_TYPE?, 
+                                            IPR_MGMT_SYS_ID?,
+                                            IPR_MGMT_SYS_LOCATION?)>
+<!ATTLIST IPR_MGMT_SYS                      %att-lang-ts;>
+
+<!ELEMENT IPR_MGMT_TYPE                    (#PCDATA)>
+<!ELEMENT IPR_MGMT_SYS_ID                  (#PCDATA)>
+
+<!ELEMENT IPR_MGMT_SYS_LOCATION            (#PCDATA)>
+
+
+<!-- IPR identification -->
+
+<!ELEMENT IPR_IDENTIFICATION               (IPR_IDENTIFIER?,
+                                            LICENCE_PLATE?)>
+<!ATTLIST IPR_IDENTIFICATION                %att-lang-ts;>
+
+<!ELEMENT IPR_IDENTIFIER                   (IPR_ID_MODE?, IPR_ID?)>
+
+<!ELEMENT IPR_ID_MODE                      (#PCDATA)>
+<!ATTLIST IPR_ID_MODE                       %att-lang;>
+<!ELEMENT IPR_ID                           (#PCDATA)>
+<!ATTLIST IPR_ID                            %att-lang;>
+
+<!ELEMENT LICENCE_PLATE                    (LP_COUNTRY?, 
+                                            LP_REG_AUT?, 
+                                            LP_REG_NUM?,
+                                            LP_DELIVERY_DATE?)>
+
+<!ELEMENT LP_COUNTRY                       (#PCDATA)>
+<!ELEMENT LP_REG_AUT                       (#PCDATA)>
+<!ELEMENT LP_REG_NUM                       (#PCDATA)>
+<!ELEMENT LP_DELIVERY_DATE                 (#PCDATA)>
+
+<!-- IPR contact point -->
+
+<!ELEMENT IPR_CONTACT_POINT                (IPR_PERSON | IPR_ORG | IPR_NAME_REF)>
+<!ATTLIST IPR_CONTACT_POINT                 %att-lang-ts;>
+
+<!-- IPR History -->
+
+<!ELEMENT IPR_HISTORY                      (IPR+)>
+<!ATTLIST IPR_HISTORY                      %att-lang-ts;>
+
+
+<!-- ======================================================================= -->
+<!-- Image Identifier                                                        -->
+<!-- ======================================================================= -->
+
+<!ELEMENT IMAGE_ID                          (UID?, ID_TYPE?)>
+<!ELEMENT UID                               (#PCDATA)>
+<!ELEMENT ID_TYPE                           (#PCDATA)>

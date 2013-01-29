@@ -1,0 +1,389 @@
+
+DRAFT - WG1 document wg1n1807.txt
+
+
+
+
+Network Working Group                                         R. Clark
+Request for Comments:                                      Elysium Ltd
+Category: Standards Track                                    M. Boliek
+                                              Ricoh Silicon Valley Inc
+                                                                D. Lee
+                                                    Hewlett-Packard Co
+							      June 2000
+
+
+               JPEG2000 - image/jp2
+             MIME Sub-type Registration
+
+
+Status of this Memo
+
+   This document specifies an Internet standards track protocol for the
+   Internet community, and requests discussion and suggestions for
+   improvements.  Please refer to the current edition of the "Internet
+   Official Protocol Standards" (STD 1) for the standardization state
+   and status of this protocol.  Distribution of this memo is unlimited.
+
+Copyright Notice
+
+   Copyright (C) The Internet Society (2000).  All Rights Reserved.
+
+Overview
+
+   This document describes the registration of the MIME sub-type
+   image/jp2 to be used for JPEG2000 files.  The image encoding 
+   is defined by [ISO-JPEG2000-1], and the file format in Annex I of
+   this document.
+
+JPEG
+
+   This document is a product of the joint ISO/IEC 'Joint Photographic
+   Experts Group' committee, ISO/IEC JTC1 SC29/WG1, popularly known as 
+   JPEG.  All comments on this document should be forwarded to the email
+   distribution list at <support@jpeg.org>.
+
+1. Abstract
+
+   This document describes the registration of the MIME sub-type
+   image/jp2.  The image encoding is defined by [ISO-JPEG2000-1], 
+   and the file format to which this document refers is defined in 
+   Annex I of [ISO-JPEG2000-1]. Note that a file format is optional 
+   in [ISO-JPEG2000-1], but mandatory for the MIME sub-type.  
+   This document is not related to the definition of of the MIME
+   sub-type image/jpeg which is partly defined by [ISO-JPEG-1] and partly
+   by the file format specification defined in [JFIF].  JPEG 2000 is a
+   new standard, intended to create a image coding system intended for
+   many types of still images (bi-level,gray-level, color, multi-component) 
+   with different characteristics (natural images, scientific, medical, 
+   remote sensing,imagery, text, rendered graphics, etc.) allowing 
+   different imaging models (client/server, real-time transmission, image
+   library archival, limited buffer and bandwidth resources, etc.) 
+   within a unified system. This coding system is intended to provide 
+   low bit-rate operation with rate-distortion and subjective image quality 
+   performance superior to existing standards, without sacrificing 
+   performance at other points in the rate-distortion spectrum. 
+   
+   This standard is intended to serve still image compression needs that 
+   are currently not served by the current JPEG standards [ISO-JPEG-1],
+   [ISO-JPEG-2], [ISO-JPEG-3], and [ISO-JPEG-4], and is intended to compliment, 
+   not replace, the current JPEG standards. 
+
+2. JPEG 2000 Definition
+
+   JPEG 2000 is defined in detail in [ISO-JPEG2000-1].  The documentation 
+   can be obtained from any national standards body or from ISO at 
+   http://www.iso.ch, on publication.  At the date of this RFC the
+   document was at the stage of 'Final Committee Draft' and was expected 
+   to be submitted in agreed form as IS 15444-1 in late 2000.
+   Information as to its latest status, and downloads of the initial
+   drafts and some supporting documentation are available through the
+   JPEG committee's official Web site at http://www.jpeg.org.  In
+   accordance with current ISO policy documents from the Draft
+   International Standard stage onwards are only available for purchase
+   as noted above.  Should this position change, the JPEG committee affirms
+   its intent to make such documentation as freely available as it is able 
+   to via its Web site.
+
+   While a brief scope and feature description is provided in this
+   section as background information, the reader is directed to the
+   original JPEG 2000 specification [ISO-JPEG2000-1] to obtain complete 
+   feature and technical details.
+
+ 2.1 JPEG 2000 Scope
+
+   JPEG 2000 is used to compress image data that typically comes from 
+   digital cameras, scanners, frame grabbers, complex image capture 
+   devices such as medical or satellite systems, and paint- and photo-
+   retouching programs. Unlike previous JPEG standards, it includes
+   information necessary to allow its use as a complete coding
+   architecture.
+   [ISO-JPEG2000-1] defines a set of lossless (bit-preserving) and lossy 
+   compression methods for coding continuous-tone, bi-level, grey-scale, 
+   or colour digital still images.  It therefore:
+   
+   — specifies decoding processes for converting compressed image data 
+     to reconstructed image data
+   
+   — specifies a codestream syntax containing information for 
+     interpreting the compressed image data
+   
+   — specifies a file format
+   
+   — provides guidance on encoding processes for converting source 
+     image data to compressed image data
+   
+   — provides guidance on how to implement these processes in practice
+   
+   [ISO-JPEG2000-1] is one of a series of standards which will cover the
+   full range of facilities the new architecture is intended to offer.
+   Approval has been given for JPEG to develop the following documents
+   in addition to [ISO-JPEG2000-1].
+   
+   - Part 2 - Coding extensions.  This will include a more comprehensive
+      file format and other extensions to the definitions in
+      [ISO-JPEG2000-1]
+      
+   - Part 3 - Motion JPEG 2000.  This provides definitions of how the
+     standard may be extended for use in recording time series of JPEG
+     2000 images with associated metadata such as audio objects
+     
+   - Part 4 - Conformance.  This deals with testing of equipment and
+     systems claimed to conform to the JPEG 2000 standards
+     
+   - Part 5 - Reference software.  This will provide developers with a
+     source of publicly available reference software.  Its role is envisaged
+     as similar in concept to that played by the Independent JPEG Group (IJG)
+     in publicising the current [ISO-JPEG-1] standard.
+
+2.2 JPEG 2000 Features
+
+   Some of the features of JPEG 2000 include:
+
+    - JPEG 2000 is capable of describing bilevel, grayscale, palette-color,
+      and full-color image data in several color spaces
+
+    - JPEG 2000 includes a number of compression schemes that allow
+      developers to choose the best space or time tradeoff for their
+      applications
+
+    - JPEG 2000 is designed to be extensible and to evolve gracefully as new
+      needs arise
+
+    - JPEG 2000 allows the inclusion of an unlimited amount of private or
+      special-purpose information within the metadata of its file format
+
+    These are features that JPEG 2000 shares with the definition of TIFF
+    [RFC-TIFF].  In addition, JPEG 20000 offers:
+    
+    - state of the art lossless and lossy compression, based on wavelet
+      technology, within a single codestream
+      
+    - low bit-rate compression performance effective down to below 0.25
+      bits per pixel for high resolution grey-scale images
+    
+    - large image handling (greater than 64k x 64k pixels) without
+      tiling
+    
+    - single decompression architecture. The current JPEG standard 
+      [ISO-JPEG-1] has 44 modes, many of which are application specific 
+      and not used by the majority of JPEG decoders. 
+      
+    - features to improve transmission in noisy environments, for
+      example mobile radio / telephony
+      
+    - capability to handle both natural and computer generated imagery
+
+3. MIME Definition
+
+3.1 image/jp2
+
+   The image/jp2 content-type refers to all of the profiles and
+   extensions that build on the JP2 file format defined in Annex I of
+   the JPEG 2000 standard [ISO-JPEG2000-1].
+   The recommended file suffix is "jp2"
+
+4.  IANA Registration
+
+   To: ietf-types@iana.org
+   Subject: Registration of Standard MIME media type image/jp2
+
+   MIME media type name: image
+
+   MIME subtype name: jp2
+
+   Required parameters: none
+
+   Optional parameters: none
+
+      It is up to the implementation to determine the application 
+      (if necessary) and render the image to the user.
+
+   Encoding considerations: Binary or Base-64 generally preferred
+
+   Security considerations:
+
+      JPEG 2000 utilizes a structure which can store image data and
+      metadata coresponding to this image data.   The fields defined 
+      in the JPEG 2000 standards are of a descriptive nature and provide
+      information that may be useful to facilitate viewing,
+      rendering and cataloging of images by a recipient.  
+      As such, the fields currently defined in the JPEG 2000 
+      standards do not in themselves create additional security 
+      risks, since the fields are not used to induce any particular 
+      behavior by the recipient application.  It should be noted that
+      selected metadata filed may encompass information partly intended 
+      to protect the image against unauthorised use or distribution.  In
+      this case alteration or removal of this data may constitute an
+      offence under national agreements based on WIPO treaties.
+
+      JPEG 2000 has an extensible structure, so that it is
+      theoretically possible that metadata fields could be defined 
+      in the future which could be used to induce particular actions on
+      the part of the recipient, thus presenting additional
+      security risks, but this type of capability is currently not
+      supported in the referenced JPEG 2000 specification. 
+
+   Interoperability considerations:
+
+      The ability of implementations to handle all the defined
+      applications (or profiles within applications) of JPEG 2000 may
+      not be ubiquitous.  As a result, implementations may decode
+      and attempt to display the encoded JPEG 2000 image data only to
+      determine that the image cannot be rendered either partially or 
+      in full.  It is intended to register further mime types to handle
+      the additional capabilities present in [ISO-JPEG2000-2], 
+      [ISO-JPEG2000-3], [ISO-JPEG2000-4] and any further parts of
+      the standard that might be created in future.
+
+   Published specification:
+
+      JPEG 2000 is define in 
+      IS 15444-1 should be published by ISO in 2001.
+      
+      JPEG is ISO/IEC JTC1 SC29/WG1 committee and may be contacted
+      through national standards bodies or organisations having liaison
+      status with either JPEG or its parent committee ISO/IEC JTC1 
+      SC29. Contact details are available from its Web site at
+      http://www.jpeg.org
+      mailto:support@jpeg.org
+      
+      All public documents available relating to the specification and
+      published by JPEG will be made available electronically at that 
+      location.
+      
+   Applications which use this media type:
+
+      Imaging, fax, messaging and multi-media
+
+   Additional information:
+
+      Magic number(s):
+           12 byte string: X'0000 000C 6A50 1A1A 0D0A 870A'
+      File extension(s): .jp2
+      Macintosh File Type Code(s): jpg2
+
+   Person & email address to contact for further information:
+
+      JPEG Webmaster
+      support@jpeg.org
+
+      JPEG Convenor
+      convenor@jpeg.org
+      
+      JPEG2000 Editor
+      J2KEditor@jpeg.org
+
+      Intended usage: COMMON
+
+      Change controller:  JPEG Webmaster
+
+5. Authors' Addresses
+
+   Richard Clark (Current JPEG Webmaster)
+   Elysium Ltd
+   Milton House
+   Whitehill Road
+   Crowborough
+   East Sussex  TN6 1LB
+   UK
+   Tel: 1 892 667411
+   Fax: 1 892 667433
+   Internet: richard@elysium.ltd.uk
+   
+   Dr Daniel T Lee (Current JPEG Convenor)
+   Hewlett Packard Company
+   11000 Wolfe Road, MS 42UO
+   Cupertino, CA 95014, 
+   USA
+   Tel: 1 408 447 4160, 
+   Fax: 1 408 447 2842 fax
+   Internet: daniel_lee@hp.com
+   
+   Mr. Martin Boliek (Current JPEG 2000 editor)
+   Ricoh Silicon Valley, Inc.
+   2882 Sand Hill Road, Suite 115
+   Menlo Park, CA 94025, 
+   USA
+   Tel: 1 650 496 5705, 
+   Fax: 1 650 854 8740
+   Internet: boliek@rsv.ricoh.com
+
+6. References
+
+   [ISO-JPEG2000-1] 
+      ITU-T Recommendation T.800 | ISO/IEC 15444-1. International 
+      Organization for Standardization, "JPEG 2000 Image Coding 
+      System: Core Coding System", Awaiting publication.
+   [ISO-JPEG2000-2] 
+      International Organization for Standardization, "JPEG 2000 
+      Image Coding System: Extensions", IS 15444-2, Awaiting 
+      publication.
+   [ISO-JPEG2000-3] 
+      International Organization for Standardization, "Motion JPEG 
+      2000", IS 15444-3, Awaiting publication.
+   [ISO-JPEG2000-4] 
+      International Organization for Standardization, "JPEG 2000 Image
+      Coding System: Conformance Testing", IS 15444-4, Awaiting 
+      publication.
+   [ISO-JPEG2000-5] 
+      International Organization for Standardization, "JPEG 2000 Image 
+      Coding System: Reference Software", IS 15444-5, Awaiting 
+      publication.
+   [ISO-JPEG-1]
+      ITU-T Recommendation T.81 | ISO/IEC 10918-1:1994, Information 
+      technology - Digital compression and coding of continuous-tone 
+      still images: Requirements and guidelines.
+   [ISO-JPEG-2]
+      ITU-T Recommendation T.83 | ISO/IEC 10918-2:1995, Information 
+      technology - Digital compression and coding of continuous-tone 
+      still images: Compliance testing.
+   [ISO-JPEG-3]
+     ITU-T Recommendation T.84 | ISO/IEC 10918-3:1996, Information 
+     technology - Digital compression and coding of continuous-tone 
+     still images: Extensions.
+   [ISO-JPEG-4]
+     ITU-T Recommendation T.86 | ISO/IEC 10918-4, Information technology
+     - Digital compression and coding of continuous-tone still images: 
+     Registration of JPEG Profiles, SPIFF Profiles, SPIFF Tags,
+     SPIFF colour Spaces, APPn Markers, SPIFF, Compression types and 
+     Registration authorities (REGAUT).
+   [JFIF]
+     'JPEG File Interchange Format', Version 1.02.  Published and made
+     freely available by C-Cube Microsystems. Corporate Communications,
+     1778 McCarthy Blvd., Milpitas, CA 95035
+   [RFC-TIFF]
+      Parsons, G., Rafferty, J, and Zilles, S, "Tag Image File Format 
+      (TIFF) - image/tiff MIME Sub-type Registration
+   [MIME1] Freed, N.  and N. Borenstein,  "Multipurpose Internet Mail
+        Extensions (MIME) Part One: Format of Internet Message Bodies",
+        RFC 2045, November 1996.
+  
+Full Copyright Statement
+
+   Copyright (C) The Internet Society (2000).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+

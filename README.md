@@ -16,7 +16,7 @@ github.com/github/gollum<br/>
 (CLI wrapper...)<br/>
 <br/>
 Directories:<br/>
-Documentation/<br/> -- ECMA, JPEG 2000, Drafts, and indexes.<br/>
+Documentation/ -- ECMA, JPEG 2000, OpenCL/SPIR, COLLADA/DAE, Drafts, MathML, Entities and indexes.<br/>
 <br/>
 Limitations:<br/>
 Vendors implemented proprietary solutions in hardware and software, and some provided OpenCL libraries. That means there is now less need for complete higher-level software implementations with unsecure processes. Software implementations of Jpeg2000/JP3D, demonstrated elsewhere, made security issues more appearant, and this repository reflects such changes needed in the CLI for that solution with concern. The IL and awarness of interfaces is significant.<br/>

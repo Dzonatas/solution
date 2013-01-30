@@ -7,3 +7,6 @@
 [submodule "openjpeg"]
 	path = openjpeg
 	url = https://github.com/malaterre/openjpeg.git
+[submodule "wiki"]
+	path = wiki
+	url = https://github.com/Dzonatas/solution.wiki.git

@@ -34,7 +34,7 @@ In CLI assembly, the ".class" instruction may be disabled in favor of ".unix", "
 .unixcall: Similar to managed calls for NaCl, LLVM, and C++. (Optional mangled optimization)<br/>
 .syscall: Optimization for UNIX systems. <br/>
 <br/>
-In mathematical expressions, they must be derived from base types or calculated from primitive real numbers. When in doubt, use MathML and wrap such expressions in DAE. Real-time math expressions are not accurate unless it uses real time scale factors and handles skew exceptions. When in doubt about time scales, wrap your expressions in MathML semantics and DAE (with optional descriptive tyoes), or the compiler may throw exceptions upon undefined semantic values.
+In mathematical expressions, they must be derived from base types or calculated from primitive real numbers. When in doubt, use MathML and wrap such expressions in DAE. Real-time math expressions are not accurate unless it uses real time scale factors and handles skew exceptions. When in doubt about time scales, wrap your expressions in MathML semantics and DAE (with optional descriptive types), or the compiler may throw exceptions upon undefined semantic values.
 
 ---
 
